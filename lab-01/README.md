@@ -23,7 +23,7 @@ mkdir src
 
 ### Step 2 - API Specification
 
-In a text editor, write [quotes.yaml](venv/quotes.yaml) as follows. 
+In a text editor, write [quotes.yaml](quotes.yaml) as follows. 
 
 ### Step 3 - Code Generator
 

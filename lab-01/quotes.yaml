@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: Quotes API
+components:
+  schemas:
+    Quote:
+      required:
+        - text
+        - author
+        - tags
+      properties:
+        text:
+          type: string
+        author:
+          type: string
+        tags:
+          type: array 
+          items:
+            type: string
+paths:
+  /quote:
+    get:
+      summary: Returns a random quote
+      responses:
+        "200":
+          description: A random quote
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Quote"
