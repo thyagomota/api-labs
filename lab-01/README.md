@@ -12,6 +12,7 @@ Contributor(s):
 
 * Implement a simple API with only one path, one entity, and no database requirements or parameters. 
 
+## Steps
 
 ### Step 1 - Virtual Environment
 
