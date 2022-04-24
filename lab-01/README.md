@@ -10,7 +10,7 @@ Contributor(s):
 
 ## Goals
 
-* Implement a simple API with only one path, one entity, and no database requirements or parameters. 
+The goal of this lab is to implement an API that returns a random quote. The quotes API has only one path, one entity, and no database requirements or parameters, favoring simplicity.
 
 ## Steps
 
