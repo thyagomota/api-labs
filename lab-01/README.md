@@ -8,8 +8,10 @@ Original Author(s): [Thyago Mota](https://github.com/thyagomota)
 
 Contributor(s): 
 
-## Goal
-...
+## Goals
+
+* Implement a simple API with only one path, one entity, and no database requirements or parameters. 
+
 
 ### Step 1 - Virtual Environment
 
