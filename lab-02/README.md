@@ -10,7 +10,7 @@ Contributor(s):
 
 ## Goals
 
-The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 01](../lab-01). However, this time the quotes are stored in an embedded database (sqlite). Also, object-relational mapping was implemented using SQLAlchemy. 
+The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 01](../lab-01). However, this time the quotes are stored in an embedded SQL database (sqlite). Also, object-relational mapping was implemented using SQLAlchemy. 
 
 The quotes used in this lab were based on [Kaggle's Quotes Dataset](https://www.kaggle.com/datasets/akmittal/quotes-dataset).
 
