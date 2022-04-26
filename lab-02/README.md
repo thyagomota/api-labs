@@ -32,7 +32,7 @@ Run [init_db.py](src/init_db.py) to create and populate the quotes database.
 
 ### Step 3 - API Specification
 
-Run [yamlgen](src/yamlgen.py) to generate <em><em>schema data types</em> from the data model. Note that because [yamlgen](src/yamlgen.py) uses database introspection, the names of the <em><em>schema data types</em> names match the table names. Therefore, they are kept in the plural form.  
+Run [yamlgen](src/yamlgen.py) to generate <em>schema data types</em> from the data model. Note that because [yamlgen](src/yamlgen.py) uses database introspection, the names of the <em>schema data types</em> names match the table names. Therefore, they are kept in the plural form.  
 
 Modify [quotes.yaml](quotes.yaml) by doing the following: 
 
