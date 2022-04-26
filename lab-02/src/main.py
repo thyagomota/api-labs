@@ -20,3 +20,17 @@ def get_quote() -> Quote:
     Returns a random quote
     """
     return Controller.get_quote()
+
+@app.get('/quote')
+def get_quote() -> Quote:
+    """
+    Returns a random quote
+    """
+    quote = Controller.get_quote()
+    return {
+        'statusCode': 200, 
+        'Content-Type': 'application/json',
+        'body': {
+            'quote': quote.toJSON(), 
+        }
+    } 

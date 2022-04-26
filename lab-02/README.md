@@ -55,18 +55,25 @@ Add [controller.py](src/controller.py).
 
 ### Step 6 - Modify main.py
 
-Replace get_quote's implementation with: 
+Replace get_quote's implementation with the following.  
 
 ```
 @app.get('/quote')
-def get_quote() -> None:
+def get_quote() -> Quote:
     """
     Returns a random quote
     """
-    return Controller.get_quote()
+    quote = Controller.get_quote()
+    return {
+        'statusCode': 200, 
+        'Content-Type': 'application/json',
+        'body': {
+            'quote': quote.toJSON(), 
+        }
+    } 
 ```
 
-Add the following import statement: 
+Also, add the following import statement: 
 
 ```
 from .controller import Controller
