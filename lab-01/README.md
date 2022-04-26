@@ -20,7 +20,7 @@ The goal of this lab is to implement an API that returns a random quote. The quo
 virtualenv venv
 cd venv
 source bin/activate
-pip3 install -r requirements.txt
+pip3 install -r ../requirements.txt
 mkdir src
 ```
 
