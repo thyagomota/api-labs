@@ -31,6 +31,13 @@ Modify [quotes.yaml](quotes.yaml) by adding the following parameter:
             type: string
 ```
 
+Because the user may request for a quote with a non-existing tag, the API specification should be modified to return a 404 response:
+
+```
+        "404":
+          description: Quote not found!
+```
+
 ### Step 2 - Code Generator
 
 ```
@@ -42,8 +49,8 @@ Modify [models.py](src/models.py) according to the TO-DOs embedded in the code.
 
 ### Step 3 - Add controller.py
 
-Add [controller.py](src/controller.py).
-
+Add [controller.py](src/controller.py). Note that this version has an optional <em>tag</em> named parameter. 
+ 
 ### Step 6 - Modify main.py
 
 Replace get_quote's implementation with the following. 
