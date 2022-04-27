@@ -16,7 +16,7 @@ I hope you enjoy these labs. Suggestions and contributions are welcomed. Thanks!
 
 ## Index
 
-[Lab-00 - Quotes API (baseline)](lab-01)
+[Lab-00 - Quotes API (baseline)](lab-00)
 
 The goal of this lab is to implement an API that returns a random quote. No database is required for this API and the quotes are hard-code favoring simplicity. 
 
