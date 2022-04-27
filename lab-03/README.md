@@ -31,7 +31,7 @@ Modify [quotes.yaml](quotes.yaml) by adding the following parameter:
             type: string
 ```
 
-Because the user may request for a quote with a non-existing tag, the API specification should be modified to return a 404 response:
+Because the user may request for a quote with a non-existing tag, the API specification should be modified to (possibly) return a 404 response.
 
 ```
         "404":
