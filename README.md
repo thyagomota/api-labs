@@ -12,7 +12,7 @@ A collection of progressively challenging labs to help learning the fundamentals
 
 Each lab is described in detailed steps to facilitate its use by students with no previous experience. 
 
-I hope you enjoy these labs. Suggestions and contributions are welcomed. Thanks!
+I hope you enjoy these labs. Feel free to contribute to this project or to adapt it as it fits your needs. Thanks!
 
 ## Index
 
