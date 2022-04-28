@@ -5,7 +5,8 @@ CREATE TABLE quotes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text VARCHAR(255) NOT NULL, 
     author VARCHAR(100) NOT NULL, 
-    popularity FLOAT
+    popularity DECIMAL(7, 2), 
+    category VARCHAR(100)
 );
 
 CREATE TABLE quote_tags (

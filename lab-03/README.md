@@ -1,8 +1,8 @@
 # Lab-03
 
-## Quotes API + SQL Database + Query Parameter
+## Quotes API + SQL Database + Path Parameter + Query Parameters
 
-Creation Date: April 26, 2022
+Creation Date: April 28, 2022
 
 Original Author(s): [Thyago Mota](https://github.com/thyagomota)
 
@@ -10,58 +10,75 @@ Contributor(s):
 
 ## Goals
 
-The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 02](../lab-02). However, this implementation allows users to request that the returned random quote has a specific tag. 
-
-The quotes used in this lab were based on [Kaggle's Quotes Dataset](https://www.kaggle.com/datasets/akmittal/quotes-dataset).
+This lab is built on top of [Lab 02](../lab-02) with the addition of (optional) query parameters. 
 
 ## Steps
 
-Repeat all steps described in [Lab 02](../lab-02). 
-
-### Step 1 - API Specification
-
-Modify [quotes.yaml](quotes.yaml) by adding the following parameter: 
+### Step 1 - Virtual Environment
 
 ```
-      parameters:
-        - in: query
-          name: tag
-          description: A tag that the quote should list.
-          schema: 
-            type: string
+virtualenv venv
+cd venv
+source bin/activate
+pip3 install -r ../requirements.txt
+mkdir src
 ```
 
-Because the user may request for a quote with a non-existing tag, the API specification should be modified to (possibly) return a 404 response.
+### Step 2 - Database
+
+Run [init_db.py](src/init_db.py) to create and populate the quotes database. 
+
+### Step 3 - API Specification
+
+Copy quotes.yaml from [Lab 02](../lab-02) and add query parameters to /quotes path. After the changes, quotes.yaml should look like [this](src/quotes.yaml)
+
+### Step 4 - Code Generator
 
 ```
-        "404":
-          description: Quote not found!
-```
-
-### Step 2 - Code Generator
-
-```
-bin/fastapi-codegen --input quotes.yaml --output src
+bin/fastapi-codegen --input ../quotes.yaml --output src
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
 
-Modify [models.py](src/models.py) according to the TO-DOs embedded in the code. 
+Modify [models.py](src/models.py) according to the notes embedded in the code. 
 
-### Step 3 - Add controller.py
+### Step 5 - Add controller.py
 
-Add [controller.py](src/controller.py). Note that this version has an optional <em>tag</em> named parameter. 
- 
-### Step 6 - Modify main.py
-
-Replace get_quote's implementation with the following. 
+Replace get_quote's implementation from [Lab 01](../lab-01) with the following: 
 
 ```
-@app.get('/quote')
-def get_quote(tag=None) -> Quote:
-    """
-    Returns a random quote
-    """
-    quote = Controller.get_quote(tag=tag)
+  # NOTE: following method has been modified
+  @staticmethod
+  def get_quote(id, text=None, author=None, category=None, tag=None, popularity=None):
+    engine = Controller.get_engine()
+    Session = sessionmaker(engine)
+    session = Session()
+    result = session.query(Quote)
+    if text: 
+      result = result.filter(Quote.text.contains(text))
+    if author:
+      result = result.filter(Quote.author.contains(author))
+    if category: 
+      result = result.filter(Quote.category == category)
+    if popularity: 
+      result = result.filter(Quote.popularity >= popularity)
+    if tag: 
+      result = result.filter(Quote.tags.any(tag=tag))
+    if id == 0:
+      quote = result.order_by(func.random()).first()
+    else:
+      quote = result.get(id)
+    return quote
+```
+
+### Step 6 - Modify main.py
+
+Replace get_quote's implementation with the following.  
+
+```
+# NOTE: following method has been modified
+@app.get('/quotes/{id}')
+def get_quotes_id(id: int, text=None, author=None, category=None, tag=None, popularity=None) -> Quote:
+    quote = Controller.get_quote(id, text=text, author=author, category=category, tag=tag, popularity=popularity)
     if quote:
         return {
             'statusCode': 200, 
@@ -72,10 +89,10 @@ def get_quote(tag=None) -> Quote:
         } 
     else:
         return {
-                'statusCode': 404,
-                'Content-Type': 'application/json',
-                'body': 'Quote not found!'
-            }
+            'statusCode': 404, 
+            'Content-Type': 'application/json',
+            'body': 'Not Found'
+        }  
 ```
 
 Also, add the following import statement: 

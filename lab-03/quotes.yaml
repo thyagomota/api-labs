@@ -1,54 +1,110 @@
 openapi: 3.0.0
 info:
-    title: Quotes API
-    version: "1.0"
+  title: Quotes API
+  version: "1.0"
 components: 
-    schemas:
-        Quote:
-            required:
-                - id
-                - text
-                - author
-            type: object
-            properties:
-                id:
-                    type: integer
-                text:
-                    type: string
-                author:
-                    type: string
-                popularity:
-                    type: number
-                tags: 
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/QuoteTag"
-        QuoteTag:
-            required:
-                - id
-                - tag
-            type: object
-            properties:
-                id:
-                    type: integer
-                tag:
-                    type: string
+  schemas:
+    Quote:
+      required:
+        - id
+        - text
+        - author
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        author:
+          type: string
+        popularity:
+          type: number
+        category:
+          type: string
+        tags: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/QuoteTag"
+    QuoteTag:
+      required:
+        - id
+        - tag
+      properties:
+        id:
+          type: integer
+        tag:
+          type: string
 paths:
-  /quote:
+  /quotes/{id}:
     get:
-      summary: Returns a random quote
-      parameters:
+      summary: Returns a quote given its id or a random quote when id=0
+      parameters: 
+        - in: path
+          name: id
+          schema: 
+            type: integer
+          required: true
+          description: id of the quote to get
+        # NOTE: following (query) parameters have been added
         - in: query
-          name: tag
-          description: A tag that the quote should list.
+          name: text
+          schema: 
+            type: string 
+          required: false
+          description: text that quote's text must contain
+        - in: query
+          name: author
           schema: 
             type: string
+          required: false
+          description: author of the quote to get
+        - in: query
+          name: category
+          schema: 
+            type: string
+          required: false
+          description: category of the quote to get  
+        - in: query
+          name: tag
+          schema: 
+            type: string
+          required: false
+          description: tag that quote must have
+        - in: query
+          name: popularity
+          schema: 
+            type: number
+          required: false
+          description: minimum popularity that quote must have          
       responses:
-        "200":
+        200:
           description: A random quote
           content:
-            application/json:
+            "application/json":
               schema:
-                $ref: "#/components/schemas/Quote"
-        "404":
-          description: Quote not found!
+                required:
+                  - statusCode
+                  - Content-Type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    $ref: "#/components/schemas/Quote"
+        404: 
+          description: Not Found
+          content:
+            "application/json":
+              schema:
+                required:
+                  - statusCode
+                  - Content-Type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    type: string

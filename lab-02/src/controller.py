@@ -19,8 +19,9 @@ class Controller:
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()
+    result = session.query(Quote)
     if id == 0:
-      quote = session.query(Quote).order_by(func.random()).first()
+      quote = result.order_by(func.random()).first()
     else:
-      quote = session.query(Quote).get(id)
+      quote = result.get(id)
     return quote

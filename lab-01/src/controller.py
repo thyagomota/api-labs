@@ -18,5 +18,6 @@ class Controller:
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()
-    quote = session.query(Quote).order_by(func.random()).first()
+    result = session.query(Quote)
+    quote = result.order_by(func.random()).first()
     return quote
