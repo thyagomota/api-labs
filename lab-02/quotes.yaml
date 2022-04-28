@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Quotes API
+  version: "1.0"
+components: 
+  schemas:
+    Quote:
+      required:
+        - id
+        - text
+        - author
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        author:
+          type: string
+        popularity:
+          type: number
+        category:
+          type: string
+        tags: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/QuoteTag"
+    QuoteTag:
+      required:
+        - id
+        - tag
+      properties:
+        id:
+          type: integer
+        tag:
+          type: string
+paths:
+  # NOTE: following path parameter has been added
+  /quotes/{id}:
+    get:
+      # NOTE: summary has been modified
+      summary: Returns a quote given its id or a random quote when id=0
+      # NOTE: following parameters section has been added
+      parameters: 
+        - in: path
+          name: id
+          schema: 
+            type: integer
+          required: true
+          description: id of the quote to get
+      responses:
+        200:
+          description: A random quote
+          content:
+            "application/json":
+              schema:
+                required:
+                  - statusCode
+                  - Content-Type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    $ref: "#/components/schemas/Quote"
+        # NOTE: following response has been added
+        404: 
+          description: Not Found
+          content:
+            "application/json":
+              schema:
+                required:
+                  - statusCode
+                  - Content-Type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    type: string
