@@ -10,7 +10,13 @@ Contributor(s):
 
 ## Goals
 
-This lab is built on top of [Lab 02](../lab-02) with the addition of (optional) query parameters. 
+This lab is built on top of [Lab 02](../lab-02) with the addition of (optional) query parameters:
+
+* text that quote's text must contain
+* author of the quote to get
+* category of the quote to get
+* tag that quote must have
+* minimum popularity that quote must have
 
 ## Steps
 
@@ -52,21 +58,21 @@ Replace get_quote's implementation from [Lab 01](../lab-01) with the following:
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()
-    result = session.query(Quote)
-    if text: 
-      result = result.filter(Quote.text.contains(text))
-    if author:
-      result = result.filter(Quote.author.contains(author))
-    if category: 
-      result = result.filter(Quote.category == category)
-    if popularity: 
-      result = result.filter(Quote.popularity >= popularity)
-    if tag: 
-      result = result.filter(Quote.tags.any(tag=tag))
-    if id == 0:
+    if id == 0: 
+      result = session.query(Quote)
+      if text: 
+        result = result.filter(Quote.text.contains(text))
+      if author:
+        result = result.filter(Quote.author.contains(author))
+      if category: 
+        result = result.filter(Quote.category == category)
+      if popularity: 
+        result = result.filter(Quote.popularity >= popularity)
+      if tag: 
+        result = result.filter(Quote.tags.any(tag=tag))
       quote = result.order_by(func.random()).first()
     else:
-      quote = result.get(id)
+      quote = session.query(Quote).get(id)
     return quote
 ```
 
