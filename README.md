@@ -20,9 +20,9 @@ I hope you enjoy these labs. Feel free to contribute to this project or to adapt
 
 The goal of this lab is to implement an API that returns a random quote. No database is required for this API and the quotes are hard-code favoring simplicity. 
 
-[Lab-02 - Quotes API  + SQL Database](lab-02)
+[Lab-01 - Quotes API  + SQL Database](lab-01)
 
-The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 01](lab-01). However, this time the quotes are stored in an embedded SQL database (sqlite). Also, object-relational mapping was implemented using SQLAlchemy.
+The goal of this lab is to implement an API that returns a random quote, similarly to [Lab 00](lab-00). However, this time the quotes are stored in an (embedded) SQL database (sqlite). Also, object-relational mapping was implemented using SQLAlchemy.
 
 [Lab-03 - Quotes API  + SQL Database + Query Parameter](lab-03)
 

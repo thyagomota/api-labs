@@ -8,7 +8,7 @@ from fastapi import FastAPI
 
 from .models import Quotes0GetResponse
 
-# NOTE: added imports
+# NOTE: following import statement has been added
 from .controller import Controller
 
 app = FastAPI(
@@ -17,7 +17,7 @@ app = FastAPI(
 )
 
 
-# NOTE: method implementation modified
+# NOTE: following method has been modified
 @app.get('/quotes/0', response_model=Quotes0GetResponse)
 def get_quotes_0() -> Quotes0GetResponse:
     """

@@ -12,6 +12,8 @@ Contributor(s):
 
 The goal of this lab is to implement an API that returns a random quote. The quotes API has only one path, one entity, and no database requirements or parameters, favoring simplicity. 
 
+The quotes used were based on [Kaggle's Quotes Dataset](https://www.kaggle.com/datasets/akmittal/quotes-dataset).
+
 ## Steps
 
 ### Step 1 - Virtual Environment

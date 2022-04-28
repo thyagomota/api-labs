@@ -17,7 +17,7 @@ class Quote(BaseModel):
     category: Optional[str] = None
     tags: Optional[List[str]] = None
 
-    # NOTE: added method below
+    # NOTE: following method has been added
     def toJSON(self):
         return {
             'id': self.id, 
