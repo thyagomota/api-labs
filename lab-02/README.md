@@ -10,7 +10,7 @@ Contributor(s):
 
 ## Goals
 
-The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 01](../lab-01). In the previous lab, the <em>path</em> for a random quote was 0. In this new lab the user can request a specific quote based on the quote's id indicated in the path. Because the requested quote might not exist, a 404 (Not Found) response was added to the API's specification. 
+The goal of this lab is to implement an API that returns a single quote, with the same requirements of [Lab 01](../lab-01). In the previous lab, the <em>path</em> for a random quote was always set to zero. In this new lab the user can request a specific quote based on the quote's id indicated in the path. Because the requested quote might not exist, a 404 (Not Found) response was added to the API's specification. 
 
 ## Steps
 

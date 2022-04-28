@@ -24,6 +24,6 @@ The goal of this lab is to implement an API that returns a random quote. No data
 
 The goal of this lab is to implement an API that returns a random quote, similarly to [Lab 00](lab-00). However, this time the quotes are stored in an (embedded) SQL database (sqlite). Also, object-relational mapping was implemented using SQLAlchemy.
 
-[Lab-03 - Quotes API  + SQL Database + Query Parameter](lab-03)
+[Lab-02 - Quotes API  + SQL Database + Path Parameter](lab-02)
 
-The goal of this lab is to implement an API that returns a random quote, with the same requirements of [Lab 02](lab-02). However, this implementation allows users to request that the returned random quote has a specific tag. 
+The goal of this lab is to implement an API that returns a single quote, with the same requirements of [Lab 01](lab-01). In the previous lab, the <em>path</em> for a random quote was always set to zero. In this new lab the user can request a specific quote based on the quote's id indicated in the path. Because the requested quote might not exist, a 404 (Not Found) response was added to the API's specification.
