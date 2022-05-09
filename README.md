@@ -31,3 +31,8 @@ The goal of this lab is to implement an API that returns a single quote, with th
 [Lab-03 - Quotes API  + SQL Database + Path Parameter + Query Parameters](lab-03)
 
 This lab is built on top of [Lab 02](lab-02) with the addition of (optional) query parameters. 
+
+[Lab-04 - Quotes API + SQL Database + Path Parameter + Query Parameter + Pagination](lab-04)
+
+API pagination gives users the ability to select which group of objects of the same type to return. This lab implements a limit-offset pagination of quotes that fit a given search criteria. 
+

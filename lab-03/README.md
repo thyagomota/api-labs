@@ -113,4 +113,4 @@ from .controller import Controller
 bin/uvicorn src.main:app
 ```
 
-Try opening the page [http://127.0.0.1:8000/quote](http://127.0.0.1:8000/quote).
+Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
