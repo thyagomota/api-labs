@@ -40,3 +40,7 @@ API pagination gives users the ability to select which group of objects of the s
 
 A key parameter is added to Quotes API to provide a simple authentication mechanism. 
 
+[Lab-06 - Quotes API  + MongoDB Database](lab-06)
+
+The goal of this lab is to implement an API that returns a random quote, similarly to [Lab 00](lab-00). However, this time the quotes are stored in a NoSQL database (MongoDB). Also, object-relational mapping was implemented using mongoengine.
+
