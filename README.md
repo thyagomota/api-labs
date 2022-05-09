@@ -36,3 +36,7 @@ This lab is built on top of [Lab 02](lab-02) with the addition of (optional) que
 
 API pagination gives users the ability to select which group of objects of the same type to return. This lab implements a limit-offset pagination of quotes that fit a given search criteria. 
 
+[Lab-05 - Quotes API + SQL Database + Path Parameter + Query Parameter + Pagination + Authentication](lab-05)
+
+A key parameter is added to Quotes API to provide a simple authentication mechanism. 
+

@@ -77,7 +77,7 @@ Replace get_quote's implementation from [Lab 01](../lab-01) with the following:
 
 ### Step 6 - Modify main.py
 
-Add get_quote's function.   
+Modify get_quote's function.   
 
 ```
 # NOTE: following method has been added
@@ -115,7 +115,7 @@ from .controller import Controller
 bin/uvicorn src.main:app
 ```
 
-Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
+Test if pagination works. Make sure all of the previous parameters still work. 
 
 ## Challenge
 
