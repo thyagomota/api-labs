@@ -32,6 +32,8 @@ Copy and then run init_db.py to create and populate the quotes database.
 
 ```
 cp ../src/init_db.py src
+cp ../db/quotes.sql db
+cp ../db/quotes.json db
 python3 src/init_db.py
 ```
 
@@ -41,14 +43,46 @@ Copy and then run yamlgen.py to generate <em>schema data types</em> from the dat
 
 ```
 cp ../src/yamlgen.py src
-python3 src/yamlgen.py
+python3 src/yamlgen.py > quotes.yaml
 ```
 
 Because yamlgen uses database introspection, the names of the <em>schema data types</em> names match the table names. Therefore, they are written in the plural form. Modify quotes.yaml by doing the following: 
 
 * change the <em>schema data type</em> names to their singular form. 
-* add the <em>tags</em> properties in <em>quotes</em> as an array of <em>QuoteTag</em> items. 
-* add the /quote path. 
+* add the <em>tags</em> properties in <em>quotes</em> as an array of <em>QuoteTag</em> items.
+
+```
+        tags:
+          type: array
+          items: 
+            $ref: "#/components/schemas/QuoteTag"
+```
+
+* add the /quotes/0 path. 
+
+```
+paths:
+  /quotes/0:
+    get:
+      summary: Returns a random quote
+      responses:
+        200:
+          description: A random quote
+          content:
+            "application/json":
+              schema:
+                required:
+                  - statusCode
+                  - Content-Type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    $ref: "#/components/schemas/Quote"
+```
 
 ### Step 4 - Code Generator
 
