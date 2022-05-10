@@ -32,13 +32,16 @@ In a text editor, write [quotes.yaml](quotes.yaml).
 
 ### Step 3 - Code Generator
 
+Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4. 
+
 ```
+cp src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input ../quotes.yaml --output src
 ```
 
 ### Step 4 - Update Code
 
-Modify [models.py](src/models.py) by adding the following method to the Quote class. 
+Modify models.py  by adding the following method to the Quote class. 
 
 ```
     def toJSON(self):
@@ -52,9 +55,13 @@ Modify [models.py](src/models.py) by adding the following method to the Quote cl
         }
 ```
 
-Add [controller.py](src/controller.py).
+Copy [controller.py](src/controller.py).
 
-Modify [main.py](src/main.py) by replacing get_quote_0's implementation with the following. 
+```
+cp ../src/controller.py src
+```
+
+Modify main.py by replacing get_quote_0's implementation with the following. 
 
 ```
 @app.get('/quotes/0', response_model=Quotes0GetResponse)
@@ -70,7 +77,7 @@ def get_quotes_0() -> Quotes0GetResponse:
     }
 ```
 
-Also in [main.py](src/main.py), add the following import statement.
+Also in main.py, add the following import statement.
 
 ```
 from .controller import Controller
@@ -82,4 +89,4 @@ from .controller import Controller
 bin/uvicorn src.main:app
 ```
 
-Try opening the page [http://127.0.0.1:8000/quote](http://127.0.0.1:8000/quote).
+Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
