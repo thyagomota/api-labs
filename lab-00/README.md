@@ -39,7 +39,7 @@ touch quotes.yaml
 Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4. 
 
 ```
-cp src/format.py lib/python3.8/site-packages/datamodel_code_generator
+cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input ../quotes.yaml --output src
 ```
 
