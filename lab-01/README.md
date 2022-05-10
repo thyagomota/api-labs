@@ -22,17 +22,29 @@ cd venv
 source bin/activate
 pip3 install -r ../requirements.txt
 mkdir src
+mkdir db
 ```
 
 ### Step 2 - Database
 
-Run [init_db.py](src/init_db.py) to create and populate the quotes database. 
+
+Copy and then run init_db.py to create and populate the quotes database. 
+
+```
+cp ../src/init_db.py src
+python3 src/init_db.py
+```
 
 ### Step 3 - API Specification
 
-Run [yamlgen](src/yamlgen.py) to generate <em>schema data types</em> from the data model. Note that because [yamlgen](src/yamlgen.py) uses database introspection, the names of the <em>schema data types</em> names match the table names. Therefore, they are kept in the plural form.  
+Copy and then run yamlgen.py to generate <em>schema data types</em> from the data model. 
 
-Modify [quotes.yaml](quotes.yaml) by doing the following: 
+```
+cp ../src/yamlgen.py src
+python3 src/yamlgen.py
+```
+
+Because yamlgen uses database introspection, the names of the <em>schema data types</em> names match the table names. Therefore, they are written in the plural form. Modify quotes.yaml by doing the following: 
 
 * change the <em>schema data type</em> names to their singular form. 
 * add the <em>tags</em> properties in <em>quotes</em> as an array of <em>QuoteTag</em> items. 
@@ -40,20 +52,52 @@ Modify [quotes.yaml](quotes.yaml) by doing the following:
 
 ### Step 4 - Code Generator
 
+Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4.
+
 ```
+cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input ../quotes.yaml --output src
+```
+
+Run sqlacodegen to generate your API's model from the specification. 
+
+```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
 
-Modify [models.py](src/models.py) according to the notes embedded in the code. 
+### Step 5 - Update Code
 
-### Step 5 - Add controller.py
+Modify models.py by adding the following to the Quote class. 
 
-Add [controller.py](src/controller.py).
+```
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id") 
 
-### Step 6 - Modify main.py
+    def toJSON(self):
+        ret = {}
+        ret['id'] = self.id
+        ret['text'] = self.text
+        ret['author'] = self.author 
+        ret['popularity'] = self.popularity 
+        ret['category'] = self.category
+        ret['tags'] = []
+        for tag in self.tags:
+            ret['tags'].append(tag.tag)
+        return ret
+```
 
-Replace get_quote's implementation with the following.  
+Comment the statement below found in QuoteTag. 
+
+```
+quote = relationship('Quote')
+```
+
+Copy controller.py.
+
+```
+cp ../src/controller.py src
+```
+
+Modify main.py by replace get_quote's implementation with the following.  
 
 ```
 @app.get('/quotes/0')
@@ -71,7 +115,7 @@ def get_quotes_0() -> Quote:
     }  
 ```
 
-Also, add the following import statement: 
+Also in main.py, add the following import statement. 
 
 ```
 from .controller import Controller
