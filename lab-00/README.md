@@ -30,6 +30,10 @@ mkdir src
 
 In a text editor, write [quotes.yaml](quotes.yaml). 
 
+```
+touch quotes.yaml
+```
+
 ### Step 3 - Code Generator
 
 Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4. 
