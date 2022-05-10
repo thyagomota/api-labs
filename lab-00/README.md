@@ -40,7 +40,7 @@ Before running FastAPI code generator, you need to update format.py because of a
 
 ```
 cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
-bin/fastapi-codegen --input ../quotes.yaml --output src
+bin/fastapi-codegen --input quotes.yaml --output src
 ```
 
 ### Step 4 - Update Code
