@@ -90,7 +90,7 @@ Before running FastAPI code generator, you need to update format.py because of a
 
 ```
 cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
-bin/fastapi-codegen --input ../quotes.yaml --output src
+bin/fastapi-codegen --input quotes.yaml --output src
 ```
 
 Run sqlacodegen to generate your API's model from the specification. 
@@ -155,10 +155,16 @@ Also in main.py, add the following import statement.
 from .controller import Controller
 ```
 
+Finally, comment the following import statement in main.py. 
+
+```
+from .models import Quotes0GetResponse
+```
+
 ## Test & Validation
 
 ```
 bin/uvicorn src.main:app
 ```
 
-Try opening the page [http://127.0.0.1:8000/quote](http://127.0.0.1:8000/quote).
+Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
