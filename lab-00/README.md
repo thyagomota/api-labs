@@ -36,34 +36,23 @@ touch quotes.yaml
 
 ### Step 3 - Code Generator
 
-Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4. 
+Before running FastAPI code generator, update format.py because of a known bug in version 0.3.4. 
 
 ```
 cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input quotes.yaml --output src
 ```
 
-### Step 4 - Update Code
+### Step 4 - Add the Controller
 
-Modify models.py  by adding the following method to the Quote class. 
-
-```
-    def toJSON(self):
-        return {
-            'id': self.id, 
-            'text': self.text, 
-            'author': self.author, 
-            'popularity': self.popularity, 
-            'category': self.category, 
-            'tags': self.tags
-        }
-```
-
-Copy [controller.py](src/controller.py).
+Add [controller.py](src/controller.py) to your code. 
 
 ```
 cp ../src/controller.py src
 ```
+
+### Step 5 - Modify the View
+
 
 Modify main.py by replacing get_quote_0's implementation with the following. 
 
@@ -73,15 +62,14 @@ def get_quotes_0() -> Quotes0GetResponse:
     """
     Returns a random quote
     """
-    quote = Controller.get_quote()
-    return {
-        'statusCode': 200, 
-        'Content-type': 'application/json', 
-        'body': quote.toJSON()
-    }
+    return Quotes0GetResponse(
+        status_code=200, 
+        content_type='application/json',
+        body=Controller.get_quotes_0()
+    )
 ```
 
-Also in main.py, add the following import statement.
+Don't forget to add the import statement.
 
 ```
 from .controller import Controller

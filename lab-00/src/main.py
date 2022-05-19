@@ -7,6 +7,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 
 from .models import Quotes0GetResponse
+from .controller import Controller
 
 # NOTE: following import statement has been added
 from .controller import Controller
@@ -17,16 +18,14 @@ app = FastAPI(
 )
 
 
-# NOTE: following method has been modified
 @app.get('/quotes/0', response_model=Quotes0GetResponse)
 def get_quotes_0() -> Quotes0GetResponse:
     """
     Returns a random quote
     """
-    quote = Controller.get_quote()
-    return {
-        'statusCode': 200, 
-        'Content-type': 'application/json', 
-        'body': quote.toJSON()
-    }
+    return Quotes0GetResponse(
+        status_code=200, 
+        content_type='application/json',
+        body=Controller.get_quotes_0()
+    )
     

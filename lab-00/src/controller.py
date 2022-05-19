@@ -1,15 +1,13 @@
 import random 
-
 from .models import Quote
 
 class Controller: 
-
     quotes = [
   {
-    "id": 1,   
-    "text": "Don't cry because it's over, smile because it happened.",
-    "author": "Dr. Seuss",
-    "tags": [
+    "Id": 1,   
+    "Quote": "Don't cry because it's over, smile because it happened.",
+    "Author": "Dr. Seuss",
+    "Tags": [
       "attributed-no-source",
       "cry",
       "crying",
@@ -23,14 +21,14 @@ class Controller:
       "smile",
       "smiling "
     ],
-    "popularity": 0.15566615566615566,
-    "category": "life"
+    "Popularity": 0.15566615566615566,
+    "Category": "life"
   },
   {
-    "id": 2,   
-    "text": "Don't cry because it's over, smile because it happened.",
-    "author": "Dr. Seuss",
-    "tags": [
+    "Id": 2,   
+    "Quote": "Don't cry because it's over, smile because it happened.",
+    "Author": "Dr. Seuss",
+    "Tags": [
       "attributed-no-source",
       "cry",
       "crying",
@@ -44,15 +42,15 @@ class Controller:
       "smile",
       "smiling "
     ],
-    "popularity": 0.15566615566615566,
-    "category": "happiness"
+    "Popularity": 0.15566615566615566,
+    "Category": "happiness"
   },
   {
-    "id": 3,   
-    "text":
+    "Id": 3,   
+    "Quote":
       "I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.",
-    "author": "Marilyn Monroe",
-    "tags": [
+    "Author": "Marilyn Monroe",
+    "Tags": [
       "attributed-no-source",
       "best",
       "life",
@@ -62,15 +60,15 @@ class Controller:
       "truth",
       "worst "
     ],
-    "popularity": 0.12912212912212911,
-    "category": "love"
+    "Popularity": 0.12912212912212911,
+    "Category": "love"
   },
   {
-    "id": 4,   
-    "text":
+    "Id": 4,   
+    "Quote":
       "I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.",
-    "author": "Marilyn Monroe",
-    "tags": [
+    "Author": "Marilyn Monroe",
+    "Tags": [
       "attributed-no-source",
       "best",
       "life",
@@ -80,15 +78,15 @@ class Controller:
       "truth",
       "worst "
     ],
-    "popularity": 0.12912212912212911,
-    "category": "life"
+    "Popularity": 0.12912212912212911,
+    "Category": "life"
   },
   {
-    "id": 5,   
-    "text":
+    "Id": 5,   
+    "Quote":
       "I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.",
-    "author": "Marilyn Monroe",
-    "tags": [
+    "Author": "Marilyn Monroe",
+    "Tags": [
       "attributed-no-source",
       "best",
       "life",
@@ -98,29 +96,29 @@ class Controller:
       "truth",
       "worst "
     ],
-    "popularity": 0.12912212912212911,
-    "category": "truth"
+    "Popularity": 0.12912212912212911,
+    "Category": "truth"
   },
   {
-    "id": 6,   
-    "text": "Be yourself; everyone else is already taken.",
-    "author": "Oscar Wilde",
-    "tags": [
+    "Id": 6,   
+    "Quote": "Be yourself; everyone else is already taken.",
+    "Author": "Oscar Wilde",
+    "Tags": [
       "attributed-no-source",
       "be-yourself",
       "honesty",
       "inspirational",
       "misattributed-oscar-wilde "
     ],
-    "popularity": 0.11322311322311322,
-    "category": "inspiration"
+    "Popularity": 0.11322311322311322,
+    "Category": "inspiration"
   },
   {
-    "id": 7,   
-    "text":
+    "Id": 7,   
+    "Quote":
       "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
-    "author": "Albert Einstein",
-    "tags": [
+    "Author": "Albert Einstein",
+    "Tags": [
       "attributed-no-source",
       "human-nature",
       "humor",
@@ -130,15 +128,15 @@ class Controller:
       "stupidity",
       "universe "
     ],
-    "popularity": 0.10312710312710313,
-    "category": "humor"
+    "Popularity": 0.10312710312710313,
+    "Category": "humor"
   },
   {
-    "id": 8,   
-    "text":
+    "Id": 8,   
+    "Quote":
       "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
-    "author": "Albert Einstein",
-    "tags": [
+    "Author": "Albert Einstein",
+    "Tags": [
       "attributed-no-source",
       "human-nature",
       "humor",
@@ -148,15 +146,15 @@ class Controller:
       "stupidity",
       "universe "
     ],
-    "popularity": 0.10312710312710313,
-    "category": "philosophy"
+    "Popularity": 0.10312710312710313,
+    "Category": "philosophy"
   },
   {
-    "id": 9,   
-    "text":
+    "Id": 9,   
+    "Quote":
       "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
-    "author": "Albert Einstein",
-    "tags": [
+    "Author": "Albert Einstein",
+    "Tags": [
       "attributed-no-source",
       "human-nature",
       "humor",
@@ -166,15 +164,15 @@ class Controller:
       "stupidity",
       "universe "
     ],
-    "popularity": 0.10312710312710313,
-    "category": "science"
+    "Popularity": 0.10312710312710313,
+    "Category": "science"
   },
   {
-    "id": 10,   
-    "text":
+    "Id": 10,   
+    "Quote":
       "Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.",
-    "author": "Bernard M. Baruch",
-    "tags": [
+    "Author": "Bernard M. Baruch",
+    "Tags": [
       "ataraxy",
       "be-yourself",
       "confidence",
@@ -182,15 +180,18 @@ class Controller:
       "individuality",
       "those-who-matter "
     ],
-    "popularity": 0.10189010189010189,
-    "category": ""
+    "Popularity": 0.10189010189010189,
+    "Category": ""
   }]
 
     @staticmethod
-    def get_quote():
+    def get_quotes_0():
         raw_json = Controller.quotes[random.randint(0, len(Controller.quotes))]
-        quote = Quote(id=raw_json['id'], text=raw_json['text'], author=raw_json['author'])
-        quote.category = raw_json['category']
-        quote.popularity = raw_json['popularity']
-        quote.tags = raw_json['tags']
+        quote = Quote(
+          id=raw_json['Id'], 
+          text=raw_json['Quote'], 
+          author=raw_json['Author'], 
+          category=raw_json['Category'],
+          popularity=raw_json['Popularity'],
+          tags=raw_json['Tags'])
         return quote
