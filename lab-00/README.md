@@ -28,10 +28,10 @@ mkdir src
 
 ### Step 2 - API Specification
 
-In a text editor, write [quotes.yaml](quotes.yaml). 
+In a text editor, write [quotes.yaml](quotes.yaml) or copy the code:
 
 ```
-touch quotes.yaml
+cp ../quotes.yaml .
 ```
 
 ### Step 3 - Code Generator
