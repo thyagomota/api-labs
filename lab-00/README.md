@@ -57,16 +57,13 @@ cp ../src/controller.py src
 Modify main.py by replacing get_quote_0's implementation with the following. 
 
 ```
-@app.get('/quotes/0', response_model=Quotes0GetResponse)
-def get_quotes_0() -> Quotes0GetResponse:
+@app.get('/quotes/0', response_model=Quote)
+def get_quotes_0(response: Response) -> Quote:
     """
     Returns a random quote
     """
-    return Quotes0GetResponse(
-        status_code=200, 
-        content_type='application/json',
-        body=Controller.get_quotes_0()
-    )
+    response.status_code = 200
+    return Controller.get_quotes_0()
 ```
 
 Don't forget to add the import statement.

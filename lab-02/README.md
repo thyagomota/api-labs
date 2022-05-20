@@ -24,73 +24,142 @@ pip3 install -r ../requirements.txt
 mkdir src
 ```
 
-### Step 2 - Database
+### Step 2 - Database Initialization
 
-Run [init_db.py](src/init_db.py) to create and populate the quotes database. 
+Copy and then run [init_db.py](src/init_db.py) to create and populate the quotes database.
+
+```
+cp ../src/init_db.py src
+mkdir db
+cp ../db/quotes.sql db
+cp ../db/quotes.json db
+python3 src/init_db.py
+```
 
 ### Step 3 - API Specification
 
-Copy quotes.yaml from [Lab 01](../lab-01) and make the modifications described below: 
+Copy quotes.yaml from [Lab 01](../lab-01). 
 
-* change /quotes path's summary
-* add an <em>id</em> path parameter to /quotes path. 
-* add a 404 response to the same path. 
+```
+cp ../../lab-01/quotes.yaml .
+```
 
-After the changes, quotes.yaml should look like [this](src/quotes.yaml)
+Modify the paths section to the following. 
+
+```
+paths:
+  /quotes/{id}:
+    get:
+      summary: Returns a quote given its id; for a random quote use id=0
+      parameters: 
+        - in: path
+          name: id
+          schema: 
+            type: integer
+          required: true
+          description: id of the quote to get
+      responses:
+        200:
+          description: A quote
+          content:
+            "application/json":
+              schema:
+                required:
+                  - status_code
+                  - content_type
+                  - body
+                properties:
+                  status_code: 
+                    type: integer
+                  content_type: 
+                    type: string 
+                  body: 
+                    $ref: "#/components/schemas/Quote"
+        404: 
+          description: Not Found
+          content:
+            "application/json":
+              schema:
+                required:
+                  - status_code
+                  - content_type
+                  - body
+                properties:
+                  statusCode: 
+                    type: integer
+                  Content-type: 
+                    type: string 
+                  body: 
+                    type: string
+```
 
 ### Step 4 - Code Generator
 
+Before running FastAPI code generator, update format.py because of a known bug in version 0.3.4.
+
 ```
-bin/fastapi-codegen --input ../quotes.yaml --output src
+cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
+bin/fastapi-codegen --input quotes.yaml --output src
+```
+
+### Step 5 - Modify the Model
+
+Run sqlacodegen to generate your API's model from the database.
+
+```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
 
-Modify [models.py](src/models.py) according to the notes embedded in the code. 
-
-### Step 5 - Add controller.py
-
-Replace get_quote's implementation from [Lab 01](../lab-01) with the following: 
+Modify models.py by adding the following to the Quote class.
 
 ```
-  # NOTE: following method has been modified
-  @staticmethod
-  def get_quote(id):
-    engine = Controller.get_engine()
-    Session = sessionmaker(engine)
-    session = Session()
-    result = session.query(Quote)
-    if id == 0:
-      quote = result.order_by(func.random()).first()
-    else:
-      quote = result.get(id)
-    return quote
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id") 
+
+    def toJSON(self):
+        ret = {}
+        ret['id'] = self.id
+        ret['text'] = self.text
+        ret['author'] = self.author 
+        ret['popularity'] = self.popularity 
+        ret['category'] = self.category
+        ret['tags'] = []
+        for tag in self.tags:
+            ret['tags'].append(tag.tag)
+        return ret
 ```
 
-### Step 6 - Modify main.py
-
-Replace get_quote's implementation with the following.  
+Comment the statement below found in QuoteTag.
 
 ```
-@app.get('/quotes/0')
-def get_quotes_0() -> Quote:
-    """
-    Returns a random quote
-    """
-    quote = Controller.get_quote()
-    return {
-        'statusCode': 200, 
-        'Content-Type': 'application/json',
-        'body': {
-            'quote': quote.toJSON(), 
-        }
-    }  
+quote = relationship('Quote')
 ```
 
-Also, add the following import statement: 
+Finally, add the QuotesIdGetResponse class.
 
 ```
-from .controller import Controller
+class QuotesIdGetResponse(BaseModel):
+    status_code: int
+    content_type: str
+    body: dict
 ```
+
+BaseModel needs to be imported.
+
+```
+from pydantic import BaseModel
+```
+
+### Step 6 - Add the Controller
+
+Add [controller.py](src/controller.py) to your code.
+
+cp ../src/controller.py src
+
+### Step 7 - Modify the View
+
+Modify main.py by replacing get_quote_id's implementation with the following.
+
+
 
 ## Test & Validation
 

@@ -13,15 +13,10 @@ class Controller:
       Controller.engine = create_engine('sqlite:///db/quotes.db')
     return Controller.engine
     
-  # NOTE: following method has been modified
   @staticmethod
   def get_quote(id):
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()
     result = session.query(Quote)
-    if id == 0:
-      quote = result.order_by(func.random()).first()
-    else:
-      quote = result.get(id)
-    return quote
+    return result.order_by(func.random()).first() if id == 0 else result.get(id)

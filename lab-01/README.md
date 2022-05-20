@@ -71,13 +71,13 @@ paths:
             "application/json":
               schema:
                 required:
-                  - statusCode
-                  - Content-Type
+                  - status_code
+                  - content_type
                   - body
                 properties:
-                  statusCode: 
+                  status_code: 
                     type: integer
-                  Content-type: 
+                  content_type: 
                     type: string 
                   body: 
                     $ref: "#/components/schemas/Quote"
