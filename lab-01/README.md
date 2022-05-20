@@ -160,19 +160,6 @@ def get_quotes_0() -> Quotes0GetResponse:
     return Quotes0GetResponse(
         status_code=200, 
         content_type='application/json',
-        body=Controller.get_quotes_0()
-    ) 
-```
-
-```
-@app.get('/quotes/0', response_model=Quotes0GetResponse)
-def get_quotes_0() -> Quotes0GetResponse:
-    """
-    Returns a random quote
-    """
-    return Quotes0GetResponse(
-        status_code=200, 
-        content_type='application/json',
         body=Controller.get_quotes_0().toJSON()
     )
 ```
