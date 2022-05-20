@@ -68,19 +68,9 @@ paths:
         200:
           description: A random quote
           content:
-            "application/json":
-              schema:
-                required:
-                  - status_code
-                  - content_type
-                  - body
-                properties:
-                  status_code: 
-                    type: integer
-                  content_type: 
-                    type: string 
-                  body: 
-                    $ref: "#/components/schemas/Quote"
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Quote"
 ```
 
 ### Step 4 - Code Generator
@@ -103,40 +93,13 @@ bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 Modify models.py by adding the following to the Quote class. 
 
 ```
-    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id") 
-
-    def toJSON(self):
-        ret = {}
-        ret['id'] = self.id
-        ret['text'] = self.text
-        ret['author'] = self.author 
-        ret['popularity'] = self.popularity 
-        ret['category'] = self.category
-        ret['tags'] = []
-        for tag in self.tags:
-            ret['tags'].append(tag.tag)
-        return ret
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate") 
 ```
 
 Comment the statement below found in QuoteTag. 
 
 ```
 quote = relationship('Quote')
-```
-
-Finally, add the Quotes0GetResponse class. 
-
-```
-class Quotes0GetResponse(BaseModel):
-    status_code: int
-    content_type: str
-    body: dict
-```
-
-BaseModel needs to be imported. 
-
-```
-from pydantic import BaseModel
 ```
 
 ### Step 6 - Add the Controller
@@ -152,23 +115,20 @@ cp ../src/controller.py src
 Modify main.py by replacing get_quote_0's implementation with the following.  
 
 ```
-@app.get('/quotes/0', response_model=Quotes0GetResponse)
-def get_quotes_0() -> Quotes0GetResponse:
+@app.get('/quotes/0')
+def get_quotes_0(response: Response) -> Quote:
     """
     Returns a random quote
     """
-    return Quotes0GetResponse(
-        status_code=200, 
-        content_type='application/json',
-        body=Controller.get_quotes_0().toJSON()
-    )
+    response.status_code = 200
+    return Controller.get_quotes_0()
 ```
 
-Don't forget to add the import statement.
+Don't forget to add the import statements.
 
 ```
-from .controller import Controller
-```
+from fastapi import Response
+from .controller import Controller```
 
 ## Test & Validation
 
