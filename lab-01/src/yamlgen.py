@@ -42,7 +42,7 @@ components:
                 type = 'integer'
             elif type.startswith('VARCHAR'):
                 type = 'string'
-            elif type.startswith('FLOAT') or type.startswith('DECIMAL'):
+            elif type.startswith('FLOAT') or type.startswith('DECIMAL') or type.startswith('REAL'):
                 type = 'number'
             if null == 1 or pkey:
                 required += f'        - {column}\n'

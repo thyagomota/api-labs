@@ -14,7 +14,7 @@ class Controller:
     return Controller.engine
     
   @staticmethod
-  def get_quote():
+  def get_quotes_0():
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()

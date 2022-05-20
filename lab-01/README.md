@@ -22,16 +22,15 @@ cd venv
 source bin/activate
 pip3 install -r ../requirements.txt
 mkdir src
-mkdir db
 ```
 
-### Step 2 - Database
-
+### Step 2 - Database Initialization
 
 Copy and then run init_db.py to create and populate the quotes database. 
 
 ```
 cp ../src/init_db.py src
+mkdir db
 cp ../db/quotes.sql db
 cp ../db/quotes.json db
 python3 src/init_db.py
@@ -39,17 +38,17 @@ python3 src/init_db.py
 
 ### Step 3 - API Specification
 
-Copy and then run yamlgen.py to generate <em>schema data types</em> from the data model. 
+Copy and then run yamlgen.py to generate schema data types from the data model.
 
 ```
 cp ../src/yamlgen.py src
 python3 src/yamlgen.py > quotes.yaml
 ```
 
-Because yamlgen uses database introspection, the names of the <em>schema data types</em> names match the table names. Therefore, they are written in the plural form. Modify quotes.yaml by doing the following: 
+Because yamlgen uses database introspection, the names of the schema data types names match the table names. Therefore, they are written in the plural form. Modify quotes.yaml by doing the following:
 
-* change the <em>schema data type</em> names to their singular form. 
-* add the <em>tags</em> properties in <em>quotes</em> as an array of <em>QuoteTag</em> items.
+* change the schema data type names to their singular form.
+* add the tags properties in quotes as an array of QuoteTag items.
 
 ```
         tags:
@@ -58,7 +57,7 @@ Because yamlgen uses database introspection, the names of the <em>schema data ty
             $ref: "#/components/schemas/QuoteTag"
 ```
 
-* add the /quotes/0 path. 
+* add the /quotes/0 path.
 
 ```
 paths:
@@ -86,20 +85,20 @@ paths:
 
 ### Step 4 - Code Generator
 
-Before running FastAPI code generator, you need to update format.py because of a known bug in version 0.3.4.
+Before running FastAPI code generator, update format.py because of a known bug in version 0.3.4. 
 
 ```
 cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input quotes.yaml --output src
 ```
 
-Run sqlacodegen to generate your API's model from the specification. 
+### Step 5 - Modify the Model
+
+Run sqlacodegen to generate your API's model from the database. 
 
 ```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
-
-### Step 5 - Update Code
 
 Modify models.py by adding the following to the Quote class. 
 
@@ -125,40 +124,63 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-Copy controller.py.
+Finally, add the Quotes0GetResponse class. 
+
+```
+class Quotes0GetResponse(BaseModel):
+    status_code: int
+    content_type: str
+    body: dict
+```
+
+BaseModel needs to be imported. 
+
+```
+from pydantic import BaseModel
+```
+
+### Step 6 - Add the Controller
+
+Add [controller.py](src/controller.py) to your code.
 
 ```
 cp ../src/controller.py src
 ```
 
-Modify main.py by replace get_quote's implementation with the following.  
+### Step 7 - Modify the View
+
+Modify main.py by replacing get_quote_0's implementation with the following.  
 
 ```
-@app.get('/quotes/0')
-def get_quotes_0() -> Quote:
+@app.get('/quotes/0', response_model=Quotes0GetResponse)
+def get_quotes_0() -> Quotes0GetResponse:
     """
     Returns a random quote
     """
-    quote = Controller.get_quote()
-    return {
-        'statusCode': 200, 
-        'Content-Type': 'application/json',
-        'body': {
-            'quote': quote.toJSON(), 
-        }
-    }  
+    return Quotes0GetResponse(
+        status_code=200, 
+        content_type='application/json',
+        body=Controller.get_quotes_0()
+    ) 
 ```
 
-Also in main.py, add the following import statement. 
+```
+@app.get('/quotes/0', response_model=Quotes0GetResponse)
+def get_quotes_0() -> Quotes0GetResponse:
+    """
+    Returns a random quote
+    """
+    return Quotes0GetResponse(
+        status_code=200, 
+        content_type='application/json',
+        body=Controller.get_quotes_0().toJSON()
+    )
+```
+
+Don't forget to add the import statement.
 
 ```
 from .controller import Controller
-```
-
-Finally, comment the following import statement in main.py. 
-
-```
-from .models import Quotes0GetResponse
 ```
 
 ## Test & Validation

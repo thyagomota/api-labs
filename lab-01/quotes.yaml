@@ -4,7 +4,6 @@ info:
   version: "1.0"
 components: 
   schemas:
-    # NOTE: following schema name has been changed to singular 
     Quote:
       required:
         - id
@@ -21,12 +20,10 @@ components:
           type: number
         category:
           type: string
-        # NOTE: following property has been added
-        tags: 
+        tags:
           type: array
           items: 
             $ref: "#/components/schemas/QuoteTag"
-    # NOTE: following schema name has been changed to singular
     QuoteTag:
       required:
         - id
@@ -36,7 +33,6 @@ components:
           type: integer
         tag:
           type: string
-# NOTE: following path section has been added
 paths:
   /quotes/0:
     get:
