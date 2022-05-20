@@ -66,9 +66,10 @@ def get_quotes_0(response: Response) -> Quote:
     return Controller.get_quotes_0()
 ```
 
-Don't forget to add the import statement.
+Don't forget to add the import statements.
 
 ```
+from fastapi import Response
 from .controller import Controller
 ```
 
