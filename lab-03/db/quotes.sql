@@ -5,7 +5,7 @@ CREATE TABLE quotes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text VARCHAR(255) NOT NULL, 
     author VARCHAR(100) NOT NULL, 
-    popularity DECIMAL(7, 2), 
+    popularity REAL, 
     category VARCHAR(100)
 );
 

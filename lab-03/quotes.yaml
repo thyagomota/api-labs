@@ -20,7 +20,7 @@ components:
           type: number
         category:
           type: string
-        tags: 
+        tags:
           type: array
           items: 
             $ref: "#/components/schemas/QuoteTag"
@@ -36,15 +36,31 @@ components:
 paths:
   /quotes/{id}:
     get:
-      summary: Returns a quote given its id or a random quote when id=0
+      summary: Returns a quote given its id; for a random quote use id=0
       parameters: 
         - in: path
           name: id
           schema: 
             type: integer
           required: true
-          description: id of the quote to get
-        # NOTE: following (query) parameters have been added
+          description: id of the quote to get      
+      responses:
+        200:
+          description: A quote
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Quote"
+        404: 
+          description: Not Found
+          content:
+            "application/json":
+              schema:
+                type: string
+  /quotes:
+    get:
+      summary: Returns a list of quotes that satisfy a search criteria
+      parameters: 
         - in: query
           name: text
           schema: 
@@ -74,37 +90,21 @@ paths:
           schema: 
             type: number
           required: false
-          description: minimum popularity that quote must have          
+          description: minimum popularity that quote must have     
       responses:
         200:
-          description: A random quote
+          description: A list of quotes
           content:
-            "application/json":
-              schema:
-                required:
-                  - statusCode
-                  - Content-Type
-                  - body
-                properties:
-                  statusCode: 
-                    type: integer
-                  Content-type: 
-                    type: string 
-                  body: 
-                    $ref: "#/components/schemas/Quote"
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Quote"
         404: 
           description: Not Found
           content:
-            "application/json":
-              schema:
-                required:
-                  - statusCode
-                  - Content-Type
-                  - body
-                properties:
-                  statusCode: 
-                    type: integer
-                  Content-type: 
-                    type: string 
-                  body: 
-                    type: string
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: "#/components/schemas/Quote"
