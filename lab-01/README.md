@@ -26,7 +26,7 @@ mkdir src
 
 ### Step 2 - Database Initialization
 
-Copy and then run init_db.py to create and populate the quotes database. 
+In a text editor, write [init_db.py](src/init_db.py) or copy the code. The run it to create and populate the quotes database. 
 
 ```
 cp ../src/init_db.py src
@@ -38,7 +38,7 @@ python3 src/init_db.py
 
 ### Step 3 - API Specification
 
-Copy and then run yamlgen.py to generate schema data types from the data model.
+Copy and then run yamlgen.py to generate OAS schema data types from the data model.
 
 ```
 cp ../src/yamlgen.py src
@@ -104,7 +104,7 @@ quote = relationship('Quote')
 
 ### Step 6 - Add the Controller
 
-Add [controller.py](src/controller.py) to your code.
+In a text editor, write [controller.py](src/controller.py) or copy the code. 
 
 ```
 cp ../src/controller.py src
@@ -115,20 +115,21 @@ cp ../src/controller.py src
 Modify main.py by replacing get_quote_0's implementation with the following.  
 
 ```
-@app.get('/quotes/0')
+@app.get('/quotes/0', response_model=dict)
 def get_quotes_0(response: Response) -> Quote:
     """
     Returns a random quote
     """
     response.status_code = 200
-    return Controller.get_quotes_0()
+    return Controller.get_quotes_0().__dict__
 ```
 
 Don't forget to add the import statements.
 
 ```
 from fastapi import Response
-from .controller import Controller```
+from .controller import Controller
+```
 
 ## Test & Validation
 
@@ -137,3 +138,9 @@ bin/uvicorn src.main:app
 ```
 
 Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
+
+You can also write a [client.py](src/client.py) script or copy the code.
+
+```
+cp ../src/client.py src
+```

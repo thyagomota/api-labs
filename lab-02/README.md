@@ -26,7 +26,7 @@ mkdir src
 
 ### Step 2 - Database Initialization
 
-Copy and then run [init_db.py](src/init_db.py) to create and populate the quotes database.
+In a text editor, write [init_db.py](src/init_db.py) or copy the code. The run it to create and populate the quotes database. 
 
 ```
 cp ../src/init_db.py src
@@ -38,7 +38,7 @@ python3 src/init_db.py
 
 ### Step 3 - API Specification
 
-Copy quotes.yaml from [Lab 01](../lab-01). 
+Copy [quotes.yaml(../../lab-01/quotes.yaml) from [Lab 01](../lab-01). 
 
 ```
 cp ../../lab-01/quotes.yaml .
@@ -57,40 +57,20 @@ paths:
           schema: 
             type: integer
           required: true
-          description: id of the quote to get
+          description: id of the quote to get      
       responses:
         200:
           description: A quote
           content:
-            "application/json":
-              schema:
-                required:
-                  - status_code
-                  - content_type
-                  - body
-                properties:
-                  status_code: 
-                    type: integer
-                  content_type: 
-                    type: string 
-                  body: 
-                    $ref: "#/components/schemas/Quote"
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Quote"
         404: 
           description: Not Found
           content:
             "application/json":
               schema:
-                required:
-                  - status_code
-                  - content_type
-                  - body
-                properties:
-                  statusCode: 
-                    type: integer
-                  Content-type: 
-                    type: string 
-                  body: 
-                    type: string
+                type: string
 ```
 
 ### Step 4 - Code Generator
@@ -104,61 +84,58 @@ bin/fastapi-codegen --input quotes.yaml --output src
 
 ### Step 5 - Modify the Model
 
-Run sqlacodegen to generate your API's model from the database.
+Run sqlacodegen to generate your API's model from the database. 
 
 ```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
 
-Modify models.py by adding the following to the Quote class.
+Modify models.py by adding the following to the Quote class. 
 
 ```
-    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id") 
-
-    def toJSON(self):
-        ret = {}
-        ret['id'] = self.id
-        ret['text'] = self.text
-        ret['author'] = self.author 
-        ret['popularity'] = self.popularity 
-        ret['category'] = self.category
-        ret['tags'] = []
-        for tag in self.tags:
-            ret['tags'].append(tag.tag)
-        return ret
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate") 
 ```
 
-Comment the statement below found in QuoteTag.
+Comment the statement below found in QuoteTag. 
 
 ```
 quote = relationship('Quote')
 ```
 
-Finally, add the QuotesIdGetResponse class.
-
-```
-class QuotesIdGetResponse(BaseModel):
-    status_code: int
-    content_type: str
-    body: dict
-```
-
-BaseModel needs to be imported.
-
-```
-from pydantic import BaseModel
-```
-
 ### Step 6 - Add the Controller
 
-Add [controller.py](src/controller.py) to your code.
+In a text editor, write [controller.py](src/controller.py) or copy the code. 
 
+```
 cp ../src/controller.py src
+```
 
 ### Step 7 - Modify the View
 
-Modify main.py by replacing get_quote_id's implementation with the following.
+Modify main.py by replacing get_quote_id's implementation with the following.  
 
+```
+@app.get('/quotes/{id}', response_model=dict)
+def get_quotes_id(id: int, response: Response) -> Quote:
+    """
+    Returns a quote given its id; for a random quote use id=0
+    """
+    quote = Controller.get_quotes_id(id)
+    print(quote)
+    if quote:
+        response.status_code = 200
+        return quote.__dict__
+    else:
+        response.status_code = 404
+        return {'message': 'Not Found!'}
+```
+
+Don't forget to add the import statements.
+
+```
+from fastapi import Response
+from .controller import Controller
+```
 
 
 ## Test & Validation
@@ -168,3 +145,9 @@ bin/uvicorn src.main:app
 ```
 
 Try opening the page [http://127.0.0.1:8000/quote](http://127.0.0.1:8000/quote).
+
+You can also write a [client.py](src/client.py) script or copy the code.
+
+```
+cp ../src/client.py src
+```

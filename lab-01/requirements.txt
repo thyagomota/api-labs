@@ -3,3 +3,4 @@ fastapi-code-generator==0.3.4
 uvicorn==0.17.6
 SQLAlchemy==1.4.35
 sqlacodegen==2.3.0
+requests==2.27.1

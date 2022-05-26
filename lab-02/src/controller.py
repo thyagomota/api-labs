@@ -14,9 +14,10 @@ class Controller:
     return Controller.engine
     
   @staticmethod
-  def get_quote(id):
+  def get_quotes_id(id):
     engine = Controller.get_engine()
     Session = sessionmaker(engine)
     session = Session()
     result = session.query(Quote)
-    return result.order_by(func.random()).first() if id == 0 else result.get(id)
+    quote = result.order_by(func.random()).first() if id == 0 else result.get(id)
+    return quote

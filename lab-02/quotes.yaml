@@ -43,37 +43,17 @@ paths:
           schema: 
             type: integer
           required: true
-          description: id of the quote to get
+          description: id of the quote to get      
       responses:
         200:
           description: A quote
           content:
-            "application/json":
-              schema:
-                required:
-                  - status_code
-                  - content_type
-                  - body
-                properties:
-                  statusCode: 
-                    type: integer
-                  Content-type: 
-                    type: string 
-                  body: 
-                    type: string
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Quote"
         404: 
           description: Not Found
           content:
             "application/json":
               schema:
-                required:
-                  - status_code
-                  - content_type
-                  - body
-                properties:
-                  statusCode: 
-                    type: integer
-                  Content-type: 
-                    type: string 
-                  body: 
-                    type: string
+                type: string
