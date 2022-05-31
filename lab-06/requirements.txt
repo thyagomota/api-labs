@@ -1,4 +1,0 @@
-fastapi==0.75.2
-fastapi-code-generator==0.3.4
-uvicorn==0.17.6
-pymongo==4.1.1
