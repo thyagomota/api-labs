@@ -8,6 +8,7 @@ A collection of progressively challenging labs to help learning the fundamentals
 * uvicorn==0.17.6: a lightweight web server  
 * SQLAlchemy==1.4.35: an object-relational mapper 
 * sqlacodegen==2.3.0: a database introspection tool that generates SQLAlchemy models automatically 
+requests==2.27.1: an HTTP library
 * yamlgen: an in-house database introspection tool that generates data schema types in YAML and based on OAS
 
 Each lab is described in detailed steps to facilitate its use by students with no previous experience. 
