@@ -10,7 +10,7 @@ Contributor(s):
 
 ## Goals
 
-This lab is built on top of [Lab 02](../lab-02) with the addition of (optional) query parameters:
+This lab makes the quote’s id parameter optional by adding a new path without it, aimed to return a list of quotes that satisfy a set of criteria informed using the following (optional) query parameters:
 
 * text that quote's text must contain
 * author of the quote to get
@@ -143,7 +143,13 @@ cp ../src/controller.py src
 
 ### Step 6 - Modify main.py
 
-Copy main.py from [Lab-02](../lab-02). Add the "get_quotes" function described below.  
+Copy main.py from [Lab-02](../lab-02). 
+
+```
+cp ../../lab-02/src/main.py src
+```
+
+Add the "get_quotes" function described below.  
 
 ```
 @app.get('/quotes', response_model=list)
@@ -158,7 +164,6 @@ def get_quotes(
     Returns a list of quotes that satisfy a search criteria
     """
     quotes = Controller.get_quotes(text, author, category, tag, popularity)
-    print(quotes)
     if quotes:
         response.status_code = 200
     else:
@@ -166,13 +171,19 @@ def get_quotes(
     return quotes
 ```
 
+"Optional" and "List" need to be imported from typing.
+
+```
+from typing import Optional, List
+```
+ 
 ## Test & Validation
 
 ```
 bin/uvicorn src.main:app
 ```
 
-Try opening the page [http://127.0.0.1:8000/quotes/0](http://127.0.0.1:8000/quotes/0).
+Try opening the page [http://127.0.0.1:8000/quotes](http://127.0.0.1:8000/quotes). You should be able to retrieve a list with all the quotes in the database. Add filtering query parameters and see if the list returned is correct. 
 
 You can also write a [client.py](src/client.py) script or copy the code.
 

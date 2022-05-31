@@ -26,7 +26,7 @@ mkdir src
 
 ### Step 2 - Database Initialization
 
-In a text editor, write [init_db.py](src/init_db.py) or copy the code. The run it to create and populate the quotes database. 
+In a text editor, write [init_db.py](src/init_db.py) or copy the code. Then run it to create and populate the quotes database. 
 
 ```
 cp ../src/init_db.py src
@@ -38,7 +38,7 @@ python3 src/init_db.py
 
 ### Step 3 - API Specification
 
-Copy and then run yamlgen.py to generate OAS schema data types from the data model.
+Copy and then run yamlgen.py to generate OAS schema data types from the data model. Yamlgen is an in-house Python script that creates schema data types in OAS-YAML format by extracting metadata from an SQLite database. Open-source DB introspection tools like yamlgen can be adapted to work with different databases as needed. 
 
 ```
 cp ../src/yamlgen.py src
@@ -84,7 +84,7 @@ bin/fastapi-codegen --input quotes.yaml --output src
 
 ### Step 5 - Modify the Model
 
-Run sqlacodegen to generate your API's model from the database. 
+Run sqlacodegen to generate your API's model from the database. Sqlacodegen uses DB introspection to generate SQLAlchemy model code. SQLAlchemy is a popular choice for object-relational mapping in Python. 
 
 ```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
@@ -104,13 +104,15 @@ quote = relationship('Quote')
 
 ### Step 6 - Add the Controller
 
-In a text editor, write [controller.py](src/controller.py) or copy the code. 
+In a text editor, write [controller.py](src/controller.py) or copy the code. The controller for this lab is updated to use the new SQLite database. 
 
 ```
 cp ../src/controller.py src
 ```
 
 ### Step 7 - Modify the View
+
+FastAPI requires its response models to be pydantic-compatible. However, the Quote class in this lab is not a pydantic model anymore, but an SQLAlchemy model instead. One way around this problem is to change the value of the response_model annotation parameter in get_quotes_0 from Quotes to dict. 
 
 Modify main.py by replacing get_quote_0's implementation with the following.  
 

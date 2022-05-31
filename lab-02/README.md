@@ -38,7 +38,7 @@ python3 src/init_db.py
 
 ### Step 3 - API Specification
 
-Copy [quotes.yaml(../../lab-01/quotes.yaml) from [Lab 01](../lab-01). 
+Copy [quotes.yaml](../../lab-01/quotes.yaml) from [Lab 01](../lab-01). 
 
 ```
 cp ../../lab-01/quotes.yaml .
