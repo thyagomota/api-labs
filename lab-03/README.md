@@ -141,7 +141,7 @@ In a text editor, write [controller.py](src/controller.py) or copy the code.
 cp ../src/controller.py src
 ```
 
-### Step 6 - Modify main.py
+### Step 7 - Modify main.py
 
 Copy main.py from [Lab-02](../lab-02). 
 
@@ -152,7 +152,7 @@ cp ../../lab-02/src/main.py src
 Add the "get_quotes" function described below.  
 
 ```
-@app.get('/quotes', response_model=list)
+@app.get('/quotes')
 def get_quotes(
     response: Response,
     text: Optional[str] = None,
@@ -166,15 +166,16 @@ def get_quotes(
     quotes = Controller.get_quotes(text, author, category, tag, popularity)
     if quotes:
         response.status_code = 200
+        return quotes
     else:
         response.status_code = 404
-    return quotes
+        return {'message': 'Not found!'}
 ```
 
-"Optional" and "List" need to be imported from typing.
+"Optional" needs to be imported from typing.
 
 ```
-from typing import Optional, List
+from typing import Optional
 ```
  
 ## Test & Validation

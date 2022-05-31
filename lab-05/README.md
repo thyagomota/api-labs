@@ -26,59 +26,85 @@ mkdir src
 
 ### Step 2 - Database
 
-Run [init_db.py](src/init_db.py) to create and populate the quotes database. Note that a new table named "keys" was added with a few rows to allow authentication testing. 
+In a text editor, write [init_db.py](src/init_db.py) or copy the code. The run it to create and populate the quotes database. Note that a new table named "keys" was added with a few rows to allow authentication testing. 
+
+```
+cp ../src/init_db.py src
+mkdir db
+cp ../db/quotes.sql db
+cp ../db/quotes.json db
+python3 src/init_db.py
+```
 
 ### Step 3 - API Specification
 
-Copy quotes.yaml from [Lab 04](../lab-04) and add a new key parameter and response to both paths. After the changes, quotes.yaml should look like [this](src/quotes.yaml)
+Copy [quotes.yaml(../../lab-04/quotes.yaml) from [Lab 04](../lab-04). 
+
+```
+cp ../../lab-04/quotes.yaml .
+```
+
+Add the following key parameter to both paths. 
+
+```
+        - in: query
+          name: key
+          schema: 
+            type: string
+          required: true 
+```
+
+Add the following response to both paths. 
+
+```
+        401: 
+          description: Unauthorized
+          content:
+            application/json:
+              schema: 
+                type: string
+```
 
 ### Step 4 - Code Generator
 
+Before running FastAPI code generator, update format.py because of a known bug in version 0.3.4.
+
 ```
-bin/fastapi-codegen --input ../quotes.yaml --output src
+cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
+bin/fastapi-codegen --input quotes.yaml --output src
+``` 
+
+### Step 5 - Modify the Model
+
+Run sqlacodegen to generate your API's model from the database. 
+
+```
 bin/sqlacodegen sqlite:///db/quotes.db > src/models.py
 ```
 
-Modify [models.py](src/models.py) according to the notes embedded in the code. 
-
-### Step 5 - Add controller.py
-
-Replace get_quote's implementation from [Lab 01](../lab-01) with the following: 
+Modify models.py by adding the following to the Quote class. 
 
 ```
-  # NOTE: following method has been modified
-  @staticmethod
-  def get_quote(id=None, text=None, author=None, category=None, tag=None, popularity=None, offset=0, limit=10):
-    engine = Controller.get_engine()
-    Session = sessionmaker(engine)
-    session = Session()
-    if not id or id == 0: 
-      result = session.query(Quote)
-      if text: 
-        result = result.filter(Quote.text.contains(text))
-      if author:
-        result = result.filter(Quote.author.contains(author))
-      if category: 
-        result = result.filter(Quote.category == category)
-      if popularity: 
-        result = result.filter(Quote.popularity >= popularity)
-      if tag: 
-        result = result.filter(Quote.tags.any(tag=tag))
-      if not id:        
-        return result.order_by(Quote.id).offset(offset).limit(limit)
-      else:
-        return result.order_by(func.random()).first()
-    else:
-      return session.query(Quote).get(id)
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate") 
 ```
 
-Add the following method and import statement: 
+Comment the statement below found in QuoteTag. 
 
 ```
-# NOTE: following import has been added
-from .models import Key
+quote = relationship('Quote')
+```
 
-  # NOTE: following method has been added
+### Step 6 - Add controller.py
+
+Copy [controller.py(../../lab-04/src/controller.py) from [Lab 04](../lab-04). 
+
+```
+cp ../../lab-04/src/controller.py src
+```
+
+Add the following method. 
+
+```
   @staticmethod
   def is_authenticated(key): 
     engine = Controller.get_engine()
@@ -88,75 +114,26 @@ from .models import Key
     return True if result else False
 ```
 
-### Step 6 - Modify main.py
-
-Modify get_quote's function.   
+Add the import statement below. 
 
 ```
-# NOTE: following method has been modified
-@app.get('/quotes')
-def get_quotes(text=None, author=None, category=None, tag=None, popularity=None, offset=0, limit=10, key=None):
-    if Controller.is_authenticated(key):
-        result = Controller.get_quote(text=text, author=author, category=category, tag=tag, popularity=popularity, offset=offset, limit=limit)
-        if result:
-            quotes = []
-            for quote in result: 
-                quotes.append(quote.toJSON())
-            if len(quotes) > 0:
-                return {
-                    'statusCode': 200, 
-                    'Content-Type': 'application/json',
-                    'body': {
-                        'quotes': quotes, 
-                    }
-                }
-        return {
-            'statusCode': 404, 
-            'Content-Type': 'application/json',
-            'body': 'Not Found'
-        } 
-    else: 
-        return {
-            'statusCode': 401, 
-            'Content-Type': 'application/json',
-            'body': 'Unauthorized'
-        }  
+from .models import Key
 ```
 
-Modify get_quote_id's function.  
+### Step 7 - Modify main.py
+
+Copy main.py from [Lab-04](../lab-04). 
 
 ```
-# NOTE: following method has been modified
-@app.get('/quotes/{id}')
-def get_quotes_id(id: int, text=None, author=None, category=None, tag=None, popularity=None, key=None):
-    if Controller.is_authenticated(key):
-        quote = Controller.get_quote(id, text=text, author=author, category=category, tag=tag, popularity=popularity)
-        if quote:
-            return {
-                'statusCode': 200, 
-                'Content-Type': 'application/json',
-                'body': {
-                    'quote': quote.toJSON(), 
-                }
-            } 
-        else:
-            return {
-                'statusCode': 404, 
-                'Content-Type': 'application/json',
-                'body': 'Not Found'
-            }  
-    else: 
-        return {
-            'statusCode': 401, 
-            'Content-Type': 'application/json',
-            'body': 'Unauthorized'
-        } 
+cp ../../lab-04/src/main.py src
 ```
 
-Also, add the following import statement: 
+Modify both "get_quotes_id" and "get_quotes" so those functions check whether a valid "key" was informed (i.e., a user can be authenticated).
+
+You can also write a [client.py](src/client.py) script or copy the code.
 
 ```
-from .controller import Controller
+cp ../src/client.py src
 ```
 
 ## Test & Validation
@@ -165,4 +142,11 @@ from .controller import Controller
 bin/uvicorn src.main:app
 ```
 
-Test the API using valid keys. Make sure all of the previous parameters still work. 
+Test the API using valid keys. Make sure all of the previous parameters still work.
+
+
+You can also write a [client.py](src/client.py) script or copy the code.
+
+```
+cp ../src/client.py src
+```

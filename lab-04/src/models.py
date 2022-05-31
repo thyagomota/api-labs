@@ -17,22 +17,7 @@ class Quote(Base):
     popularity = Column(DECIMAL(7, 2))
     category = Column(String(100))
 
-    # NOTE: following statement has been added
-    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id") 
-
-    # NOTE: following method has been added
-    def toJSON(self):
-        ret = {}
-        ret['id'] = self.id
-        ret['text'] = self.text
-        ret['author'] = self.author 
-        ret['popularity'] = self.popularity 
-        ret['category'] = self.category
-        ret['tags'] = []
-        for tag in self.tags:
-            ret['tags'].append(tag.tag)
-        return ret
-
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate")
 
 t_sqlite_sequence = Table(
     'sqlite_sequence', metadata,
@@ -47,5 +32,4 @@ class QuoteTag(Base):
     id = Column(ForeignKey('quotes.id'), primary_key=True, nullable=False)
     tag = Column(String(30), primary_key=True, nullable=False)
 
-    # NOTE: following statement has been commented out
     # quote = relationship('Quote')
