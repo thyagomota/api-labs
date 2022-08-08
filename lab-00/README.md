@@ -43,16 +43,7 @@ cp ../src/format.py lib/python3.8/site-packages/datamodel_code_generator
 bin/fastapi-codegen --input quotes.yaml --output src
 ```
 
-### Step 4 - Add the Controller
-
-In a text editor, write [controller.py](src/controller.py) or copy the code. 
-
-```
-cp ../src/controller.py src
-```
-
-### Step 5 - Modify the View
-
+### Step 4 - Modify Main
 
 Modify main.py by replacing get_quote_0's implementation with the following. 
 
@@ -63,14 +54,29 @@ def get_quotes_0(response: Response) -> Quote:
     Returns a random quote
     """
     response.status_code = 200
-    return Controller.get_quotes_0()
+    raw_json = quotes[random.randint(0, len(quotes))]
+    quote = Quote(
+        id=raw_json['Id'], 
+        text=raw_json['Quote'], 
+        author=raw_json['Author'], 
+        category=raw_json['Category'],
+        popularity=raw_json['Popularity'],
+        tags=raw_json['Tags'])
+    return quote
 ```
 
-Don't forget to add the import statements.
+"quotes" is a list of Quote objects.  Don't forget to add the import statements.
 
 ```
+from .models import Quote
 from fastapi import Response
-from .controller import Controller
+import random
+```
+
+You can also just copy the code. 
+
+```
+cp ../src/main.py src
 ```
 
 ## Test & Validation
