@@ -19,7 +19,7 @@ app = FastAPI(
     version='1.0',
 )
 
-@app.get('/quotes', response_model=List[dict])
+@app.get('/quotes', response_model=Union[List[dict], dict])
 def get_quotes(
     text: Optional[str] = None,
     author: Optional[str] = None,
@@ -30,7 +30,7 @@ def get_quotes(
     limit: Optional[int] = 10, 
     key: str = None, 
     response: Response = None
-) -> List[Quote]:
+) -> Union[List[dict], dict]:
     """
     Returns a list of quotes that satisfy a search criteria
     """
@@ -50,14 +50,16 @@ def get_quotes(
       if tag: 
         result = result.filter(Quote.tags.any(tag=tag))
       result = result.offset(offset).limit(limit)
+      result = [r.__dict__ for r in result]
       if result:
         response.status_code = 200
+        return result
       else:
         response.status_code = 404
-      return [r.__dict__ for r in result]
+        return {'body': 'Not Found'}
     else:
       response.status_code = 401
-      return []
+      return {'body': 'Unauthorized'}
 
 @app.get('/quotes/{id}', response_model=dict)
 def get_quotes_id(id: int, key: str, response: Response) -> dict:
