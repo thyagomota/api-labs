@@ -50,7 +50,6 @@ def get_quotes(
       result = result.filter(Quote.tags.any(tag=tag))
     result = result.offset(offset).limit(limit)
     result = [r.__dict__ for r in result]
-    print(result)
     if result:
       response.status_code = 200
       return result
