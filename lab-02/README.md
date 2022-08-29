@@ -102,35 +102,31 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-### Step 6 - Add the Controller
+### Step 6 - Modify Main
 
-In a text editor, write [controller.py](src/controller.py) or copy the code. 
-
-```
-cp ../src/controller.py src
-```
-
-### Step 7 - Modify the View
-
-Modify main.py by replacing get_quote_id's implementation with the following.  
+Modify main.py by replacing get_quote_0's implementation with the following.
 
 ```
-@app.get('/quotes/{id}', response_model=dict)
-def get_quotes_id(id: int, response: Response) -> Quote:
+@app.get('/quotes/{id}', response_model=dict, responses={'404': {'model': str}})
+def get_quotes_id(id: int) -> Union[dict, str]:
     """
     Returns a quote given its id; for a random quote use id=0
     """
-    quote = Controller.get_quotes_id(id)
-    print(quote)
-    if quote:
-        response.status_code = 200
-        return quote.__dict__
-    else:
-        response.status_code = 404
-        return {'message': 'Not Found!'}
+    engine = DBHelper.get_engine()
+    Session = sessionmaker(engine)
+    session = Session()
+    result = session.query(Quote)
+    quote = result.order_by(func.random()).first() if id == 0 else result.get(id)
+    return quote.__dict__
 ```
 
-Don't forget to add the import statements.
+Don't forget to copy db_helper.py. 
+
+```
+cp ../src/db_helper.py src
+```
+
+Also, don't forget to add the import statements.
 
 ```
 from fastapi import Response
