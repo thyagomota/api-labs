@@ -48,7 +48,7 @@ python3 src/yamlgen.py > quotes.yaml
 Because yamlgen uses database introspection, the names of the schema data types names match the table names. Therefore, they are written in the plural form. Modify quotes.yaml by doing the following:
 
 * change the schema data type names to their singular form.
-* add the tags properties in quotes as an array of QuoteTag items.
+* add the tags properties in Quote as an array of QuoteTag items.
 
 ```
         tags:
@@ -102,19 +102,9 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-### Step 6 - Add the Controller
+### Step 6 - Modify Main
 
-In a text editor, write [controller.py](src/controller.py) or copy the code. The controller for this lab is updated to use the new SQLite database. 
-
-```
-cp ../src/controller.py src
-```
-
-### Step 7 - Modify the View
-
-FastAPI requires its response models to be pydantic-compatible. However, the Quote class in this lab is not a pydantic model anymore, but an SQLAlchemy model instead. One way around this problem is to change the value of the response_model annotation parameter in get_quotes_0 from Quotes to dict. 
-
-Modify main.py by replacing get_quote_0's implementation with the following.  
+Modify main.py by replacing get_quote_0's implementation with the following.
 
 ```
 @app.get('/quotes/0', response_model=dict)
@@ -122,15 +112,25 @@ def get_quotes_0(response: Response) -> Quote:
     """
     Returns a random quote
     """
-    response.status_code = 200
-    return Controller.get_quotes_0().__dict__
+    engine = DBHelper.get_engine()
+    Session = sessionmaker(engine)
+    session = Session()
+    result = session.query(Quote)
+    quote = result.order_by(func.random()).first()
+    return quote.__dict__
 ```
+
+FastAPI requires its response models to be pydantic-compatible. However, the Quote class in this lab is not a pydantic model anymore, but an SQLAlchemy model instead. One way around this problem is to change the value of the response_model annotation parameter in get_quotes_0 from Quotes to dict. 
+
+The main.py code now requires a DBHelper class to connect to the database. 
 
 Don't forget to add the import statements.
 
 ```
 from fastapi import Response
-from .controller import Controller
+from sqlalchemy.sql import func
+from sqlalchemy.orm import sessionmaker
+from .db_helper import DBHelper
 ```
 
 ## Test & Validation
