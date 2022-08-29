@@ -133,51 +133,54 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-### Step 6 - Add the Controller
+### Step 6 - Modify Main
 
-In a text editor, write [controller.py](src/controller.py) or copy the code. 
-
-```
-cp ../src/controller.py src
-```
-
-### Step 7 - Modify main.py
-
-Copy main.py from [Lab-02](../lab-02). 
+Modify main.py by replacing get_quotes_id from lab-02 and get_quotes with the following. 
 
 ```
-cp ../../lab-02/src/main.py src
-```
-
-Add the "get_quotes" function described below.  
-
-```
-@app.get('/quotes')
+@app.get('/quotes', response_model=List[dict], responses={'404': {'model': str}})
 def get_quotes(
-    response: Response,
     text: Optional[str] = None,
     author: Optional[str] = None,
     category: Optional[str] = None,
     tag: Optional[str] = None,
-    popularity: Optional[float] = None) -> List[Quote]:
+    popularity: Optional[float] = None,
+) -> Union[List[Quote], str]:
     """
     Returns a list of quotes that satisfy a search criteria
     """
-    quotes = Controller.get_quotes(text, author, category, tag, popularity)
-    if quotes:
-        response.status_code = 200
-        return quotes
-    else:
-        response.status_code = 404
-        return {'message': 'Not found!'}
+    engine = DBHelper.get_engine()
+    Session = sessionmaker(engine)
+    session = Session()
+    result = session.query(Quote)
+    if text: 
+      result = result.filter(Quote.text.contains(text))
+    if author:
+      result = result.filter(Quote.author.contains(author))
+    if category: 
+      result = result.filter(Quote.category == category)
+    if popularity: 
+      result = result.filter(Quote.popularity >= float(popularity))
+    if tag: 
+      result = result.filter(Quote.tags.any(tag=tag))
+    return [r.__dict__ for r in result]
 ```
 
-"Optional" needs to be imported from typing.
+Don't forget to copy db_helper.py.
 
 ```
-from typing import Optional
+cp ../src/db_helper.py src
 ```
- 
+
+Also, don't forget to add the import statements.
+
+```
+from fastapi import Response
+from sqlalchemy.sql import func
+from sqlalchemy.orm import sessionmaker
+from .db_helper import DBHelper
+```
+
 ## Test & Validation
 
 ```
