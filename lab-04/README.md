@@ -93,21 +93,7 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-### Step 6 - Add the Controller
-
-Copy [controller.py(../../lab-03/src/controller.py) from [Lab 03](../lab-03). 
-
-```
-cp ../../lab-03/src/controller.py src
-```
-
-Add parameters offset (with a default value of 0) and limit (with a default value of 10) to the "get_quotes" method. Then add the following statement right after the method's return. 
-
-```
-    result = result.offset(offset).limit(limit)
-```
-
-### Step 7 - Modify main.py
+### Step 6 - Modify main.py
 
 Copy main.py from [Lab-03](../lab-03). 
 
@@ -115,7 +101,13 @@ Copy main.py from [Lab-03](../lab-03).
 cp ../../lab-03/src/main.py src
 ```
 
-Add parameters offset (with a default value of 0) and limit (with a default value of 10) to the "get_quotes" function. Make sure to pass those parameters to the controller's "get_quotes" method. 
+Add parameters offset (with a default value of 0) and limit (with a default value of 10) to the "get_quotes" function. 
+
+Don't forget to copy db_helper.py.
+
+```
+cp ../src/db_helper.py src
+```
 
 ## Test & Validation
 
