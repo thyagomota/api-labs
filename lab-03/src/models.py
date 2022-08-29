@@ -16,7 +16,8 @@ class Quote(Base):
     author = Column(String(100), nullable=False)
     popularity = Column(Float)
     category = Column(String(100))
-    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate")
+    tags = relationship("QuoteTag", primaryjoin="Quote.id==QuoteTag.id", lazy="immediate") 
+
 
 t_sqlite_sequence = Table(
     'sqlite_sequence', metadata,
@@ -31,4 +32,5 @@ class QuoteTag(Base):
     id = Column(ForeignKey('quotes.id'), primary_key=True, nullable=False)
     tag = Column(String(30), primary_key=True, nullable=False)
 
+    
     # quote = relationship('Quote')
