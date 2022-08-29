@@ -94,32 +94,6 @@ Comment the statement below found in QuoteTag.
 quote = relationship('Quote')
 ```
 
-### Step 6 - Add controller.py
-
-Copy [controller.py(../../lab-04/src/controller.py) from [Lab 04](../lab-04). 
-
-```
-cp ../../lab-04/src/controller.py src
-```
-
-Add the following method. 
-
-```
-  @staticmethod
-  def is_authenticated(key): 
-    engine = Controller.get_engine()
-    Session = sessionmaker(engine)
-    session = Session()
-    result = session.query(Key).get(key)
-    return True if result else False
-```
-
-Add the import statement below. 
-
-```
-from .models import Key
-```
-
 ### Step 7 - Modify main.py
 
 Copy main.py from [Lab-04](../lab-04). 
