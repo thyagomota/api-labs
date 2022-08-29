@@ -17,7 +17,11 @@ requests==2.27.1: an HTTP library
 
 Each lab is described in detailed steps to facilitate its use by students with no previous experience. 
 
-I hope you enjoy these labs. Feel free to contribute to this project or to adapt it as it fits your needs. Thanks!
+I hope you enjoy these labs. Feel free to contribute to this project or to adapt it as it fits your needs. 
+
+This project is described in more details in a CS educational paper to be published at the [CCSC Rocky Mountain Conference](https://www.ccsc.org/rockymt/) in October 2022. 
+
+Thanks!
 
 ## Index
 
