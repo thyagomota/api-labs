@@ -20,8 +20,8 @@ app = FastAPI(
 )
 
 
-@app.get('/quotes/{id}', response_model=dict, responses={'404': {'model': str}})
-def get_quotes_id(id: int) -> Union[dict, str]:
+@app.get('/quotes/{id}', response_model=dict)
+def get_quotes_id(id: int, response: Response) -> Union[dict, str]:
     """
     Returns a quote given its id; for a random quote use id=0
     """
@@ -30,4 +30,10 @@ def get_quotes_id(id: int) -> Union[dict, str]:
     session = Session()
     result = session.query(Quote)
     quote = result.order_by(func.random()).first() if id == 0 else result.get(id)
-    return quote.__dict__
+    if quote:
+        response.status_code = 200
+        return quote.__dict__
+    else:
+        response.status_code = 404
+        return {}
+

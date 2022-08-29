@@ -8,6 +8,7 @@ response = requests.get(
     params = { }
 )
 if response.status_code == 200 or response.status_code == 404:
+    print(response.status_code)
     print(response.json())
 else:
     raise Exception("Invalid Request! Check your API's documentation!\n" + response.text)        
