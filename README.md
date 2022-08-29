@@ -1,6 +1,10 @@
 # api-labs
 
-A collection of progressively challenging labs to help learning the fundamentals of API development. The APIs are described in OAS 3.0.0 using YAML and were implemented in Python 3.8.9 with the following modules/packages:  
+APIs have become one of the most important building blocks of modern software applications. Developing an API is a complex task that requires different skills and abilities, many of which students (in under- graduate CS programs) are still developing. Scaffolding is an interactive learning technique where instructors provide conceptual support to help the learners develop skills to be able to work independently. Scaffolding learning is beneficial because it teaches students how to complete tasks that they are not very familiar with. This project proposes the use of scaffolding to teach API development by breaking learning material into progressively more challenging tasks. Throughout the scaffolding learning process students are given a consistent support structure based on a model-driven development approach. The API development model is described in the schematic figure below. 
+
+![figure1.png](pics/figure1.png)
+
+API-Labs is a collection of progressively challenging activities to help learning the fundamentals of API development. The APIs are described in OAS 3.0.0 using YAML and were implemented in Python 3.8.9 with the following modules/packages:  
 
 * sqlite3: an embedded SQL database (part of Python's standard library) 
 * fastapi==0.75.2: a web framework for building APIs 
