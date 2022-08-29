@@ -130,7 +130,9 @@ Also, don't forget to add the import statements.
 
 ```
 from fastapi import Response
-from .controller import Controller
+from sqlalchemy.sql import func
+from sqlalchemy.orm import sessionmaker
+from .db_helper import DBHelper
 ```
 
 
