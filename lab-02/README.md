@@ -104,7 +104,7 @@ quote = relationship('Quote')
 
 ### Step 6 - Modify Main
 
-Modify main.py by replacing get_quote_0's implementation with the following.
+Modify main.py by replacing get_quote_id's implementation with the following.
 
 ```
 @app.get('/quotes/{id}', response_model=dict, responses={'404': {'model': str}})
