@@ -124,6 +124,10 @@ FastAPI requires its response models to be pydantic-compatible. However, the Quo
 
 The main.py code now requires a DBHelper class to connect to the database. 
 
+```
+cp ../src/db_helper.py src
+```
+
 Don't forget to add the import statements.
 
 ```
