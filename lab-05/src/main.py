@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from typing import List, Optional, Union
+from urllib import response
 
 from fastapi import FastAPI
 
@@ -19,6 +20,7 @@ app = FastAPI(
     version='1.0',
 )
 
+
 @app.get('/quotes', response_model=Union[List[dict], dict])
 def get_quotes(
     text: Optional[str] = None,
@@ -28,7 +30,7 @@ def get_quotes(
     popularity: Optional[float] = None,
     offset: Optional[int] = 0, 
     limit: Optional[int] = 10, 
-    key: str = None, 
+    key: str = None,
     response: Response = None
 ) -> Union[List[dict], dict]:
     """
@@ -59,7 +61,7 @@ def get_quotes(
         return {'body': 'Not Found'}
     else:
       response.status_code = 401
-      return {'body': 'Unauthorized'}
+      return { 'body': 'Unauthorized' }
 
 @app.get('/quotes/{id}', response_model=dict)
 def get_quotes_id(id: int, key: str, response: Response) -> dict:
@@ -77,7 +79,7 @@ def get_quotes_id(id: int, key: str, response: Response) -> dict:
         return quote.__dict__
       else:
         response.status_code = 404
-        return {'Not Found'}
+        return {'body': 'Not Found'}
     else:
       response.status_code = 401
-      return {'body': 'Unauthorized'}
+      return { 'body': 'Unauthorized' }

@@ -104,6 +104,18 @@ cp ../../lab-04/src/main.py src
 
 Modify both "get_quotes_id" and "get_quotes" so those functions check whether a valid "key" was informed (i.e., a user can be authenticated).
 
+Don't forget to copy db_helper.py.
+
+```
+cp ../src/db_helper.py src
+```
+
+You will also need to import the Key model. 
+
+```
+from .models import Key
+```
+
 You can also write a [client.py](src/client.py) script or copy the code.
 
 ```
