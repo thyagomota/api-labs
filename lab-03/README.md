@@ -138,15 +138,15 @@ quote = relationship('Quote')
 Modify main.py by replacing get_quotes_id from lab-02 and get_quotes with the following. 
 
 ```
-@app.get('/quotes', response_model=List[dict])
+@app.get('/quotes', response_model=Union[List[dict], dict])
 def get_quotes(
     text: Optional[str] = None,
     author: Optional[str] = None,
     category: Optional[str] = None,
     tag: Optional[str] = None,
-    popularity: Optional[float] = None,
+    popularity: Optional[float] = None, 
     response: Response = None
-) -> List[Quote]:
+) -> Union[List[dict], dict]:
     """
     Returns a list of quotes that satisfy a search criteria
     """
@@ -164,11 +164,13 @@ def get_quotes(
       result = result.filter(Quote.popularity >= float(popularity))
     if tag: 
       result = result.filter(Quote.tags.any(tag=tag))
+    result = [r.__dict__ for r in result]
     if result:
       response.status_code = 200
+      return result
     else:
       response.status_code = 404
-    return [r.__dict__ for r in result]
+      return {'body': 'Not Found'}
 ```
 
 Don't forget to copy db_helper.py.
