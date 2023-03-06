@@ -1,6 +1,6 @@
 # api-labs
 
-APIs have become one of the most important building blocks of modern software applications. Developing an API is a complex task that requires different skills and abilities, many of which students (in under- graduate CS programs) are still developing. Scaffolding is an interactive learning technique where instructors provide conceptual support to help the learners develop skills to be able to work independently. Scaffolding learning is beneficial because it teaches students how to complete tasks that they are not very familiar with. This project proposes the use of scaffolding to teach API development by breaking learning material into progressively more challenging tasks. Throughout the scaffolding learning process students are given a consistent support structure based on a model-driven development approach. The API development model is described in the schematic figure below. 
+APIs have become one of the most important building blocks of modern software applications. Developing an API is a complex task that requires different skills and abilities, many of which students (in undergraduate CS programs) are still developing. Scaffolding is an interactive learning technique where instructors provide conceptual support to help the learners develop skills to be able to work independently. Scaffolding learning is beneficial because it teaches students how to complete tasks that they are not very familiar with. This project proposes the use of scaffolding to teach API development by breaking learning material into progressively more challenging tasks. Throughout the scaffolding learning process students are given a consistent support structure based on a model-driven development approach. The API development model is described in the schematic figure below. 
 
 ![figure1.png](pics/figure1.png)
 
@@ -19,7 +19,9 @@ Each lab is described in detailed steps to facilitate its use by students with n
 
 I hope you enjoy these labs. Feel free to contribute to this project or to adapt it as it fits your needs. 
 
-This project is described in more details in a CS educational paper to be published at the [CCSC Rocky Mountain Conference](https://www.ccsc.org/rockymt/) in October 2022. 
+Please, cite this project using the reference below: 
+
+Thyago Mota. 2022. [Teaching API development using scaffolding-inspired techniques](https://dl.acm.org/doi/10.5555/3575846.3575849). J. Comput. Sci. Coll. 38, 2 (October 2022), 14–23.
 
 Thanks!
 
